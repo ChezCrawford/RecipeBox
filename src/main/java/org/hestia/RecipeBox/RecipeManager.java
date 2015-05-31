@@ -5,24 +5,29 @@ import org.springframework.stereotype.Component;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Collection;
 
 @Component
 @Path("/recipes")
 public class RecipeManager
 {
+    private IRecipeProvider provider = new TestRecipeProvider();
+
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public List<Recipe> getRecipes()
+    public Collection<Recipe> getRecipes()
     {
-        Recipe sample = new Recipe(1, "My first recipe.");
+        return this.provider.getRecipes();
+    }
 
-        List<Recipe> recipes = new ArrayList<>();
-        recipes.add(sample);
-
-        return recipes;
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("{id}")
+    public Recipe getRecipeById(@PathParam("id") Integer id)
+    {
+        return this.provider.getRecipeById(id);
     }
 }

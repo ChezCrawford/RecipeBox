@@ -10,13 +10,14 @@ import org.springframework.context.annotation.ComponentScan;
 @EnableAutoConfiguration
 public class RecipeBoxApplication extends SpringBootServletInitializer
 {
-
     @Override
-    protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
+    protected SpringApplicationBuilder configure(SpringApplicationBuilder application)
+    {
         return application.sources(RecipeBoxApplication.class);
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args)
+    {
         new RecipeBoxApplication().configure(
                 new SpringApplicationBuilder(RecipeBoxApplication.class)).run(args);
     }
