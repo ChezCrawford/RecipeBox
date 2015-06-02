@@ -1,6 +1,10 @@
 package org.hestia.RecipeBox.model;
 
+import org.bson.types.ObjectId;
+
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -8,76 +12,100 @@ import java.util.List;
 @XmlRootElement
 public class Recipe
 {
-    private int id;
-    private String title;
-    private String createdBy;
-    private Date createdDate;
-    private List<Ingredient> ingredients = new ArrayList<>();
-    private List<Direction> directions = new ArrayList<>();
+    private ObjectId _id;
+    private String _title;
+    private ObjectId _createdBy;
+    private Date _createdDate;
+    private List<Ingredient> _ingredients = new ArrayList<>();
+    private List<Direction> _directions = new ArrayList<>();
 
-    public int getId()
+    // todo: Add a _sharedWith list of either User objects or User IDs that shows who this recipe is shared with.
+
+    @XmlElement(name = "_id")
+    public String getIdStr()
     {
-        return this.id;
+        return _id.toString();
     }
 
-    public void setId(int id)
+    @XmlTransient
+    public ObjectId getId()
     {
-        this.id = id;
+        return _id;
+    }
+
+    @XmlElement(name = "_id")
+    public void setIdFromStr(String id)
+    {
+        _id = new ObjectId(id);
+    }
+
+    // JAM - is this XmlTransient annotation necessary?
+    @XmlTransient
+    public void setId(ObjectId id)
+    {
+        _id = id;
     }
 
     public String getTitle()
     {
-        return this.title;
+        return _title;
     }
 
     public void setTitle(String title)
     {
-        this.title = title;
+        _title = title;
     }
 
-    public String getCreatedBy()
+    @XmlElement(name = "createdBy")
+    public String getCreatedByStr()
     {
-        return createdBy;
+        return _createdBy.toString();
     }
 
-    public void setCreatedBy(String createdBy)
+    @XmlTransient
+    public ObjectId getCreatedBy()
     {
-        this.createdBy = createdBy;
+        return _createdBy;
+    }
+
+    public void setCreatedBy(ObjectId createdBy)
+    {
+        _createdBy = createdBy;
     }
 
     public Date getCreatedDate()
     {
-        return createdDate;
+        return _createdDate;
     }
 
     public void setCreatedDate(Date createdDate)
     {
-        this.createdDate = createdDate;
+        _createdDate = createdDate;
     }
 
     public List<Ingredient> getIngredients()
     {
-        return this.ingredients;
+        return _ingredients;
     }
 
     public void setIngredients(List<Ingredient> ingredientList)
     {
-        this.ingredients = ingredientList;
+        _ingredients = ingredientList;
     }
 
     public List<Direction> getDirections()
     {
-        return directions;
+        return _directions;
     }
 
     public void setDirections(List<Direction> directions)
     {
-        this.directions = directions;
+        _directions = directions;
     }
 
-    public Recipe(int id, String title)
+    public Recipe(ObjectId id, String title)
     {
-        this.id = id;
-        this.title = title;
+        _id = id;
+        _title = title;
     }
 }

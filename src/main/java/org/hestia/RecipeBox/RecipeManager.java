@@ -1,5 +1,6 @@
 package org.hestia.RecipeBox;
 
+import org.bson.types.ObjectId;
 import org.hestia.RecipeBox.model.Recipe;
 import org.springframework.stereotype.Component;
 
@@ -26,7 +27,7 @@ public class RecipeManager
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("{id}")
-    public Recipe getRecipeById(@PathParam("id") Integer id)
+    public Recipe getRecipeById(@PathParam("id") ObjectId id)
     {
         return this.provider.getRecipeById(id);
     }
