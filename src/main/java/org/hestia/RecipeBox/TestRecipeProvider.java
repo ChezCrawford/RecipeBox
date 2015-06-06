@@ -5,13 +5,12 @@ import org.hestia.RecipeBox.model.Direction;
 import org.hestia.RecipeBox.model.Ingredient;
 import org.hestia.RecipeBox.model.Recipe;
 
-import java.util.Collection;
-import java.util.Date;
-import java.util.HashMap;
+import java.util.*;
 
 public class TestRecipeProvider implements IRecipeProvider
 {
     private HashMap<ObjectId, Recipe> cache = new HashMap<>();
+
     public  TestRecipeProvider()
     {
         this.loadRecipes();
@@ -24,9 +23,40 @@ public class TestRecipeProvider implements IRecipeProvider
     }
 
     @Override
-    public Recipe getRecipeById(ObjectId id)
+    public Collection<Recipe> getRecipesForUser(String userId)
     {
-        return this.cache.get(id);
+        ObjectId toComp = new ObjectId(userId);
+        Collection<Recipe> ret = new LinkedList<>();
+        for (Recipe recipe : this.cache.values())
+        {
+            if (recipe.getCreatedBy().equals(toComp))
+            {
+                ret.add(recipe);
+            }
+        }
+        return ret;
+    }
+
+    @Override
+    public Collection<Recipe> getRecipes(List<String> ids)
+    {
+        Collection<Recipe> ret = new LinkedList<>();
+        for (String id : ids)
+        {
+            ObjectId objectId = new ObjectId(id);
+            Recipe recipe = this.cache.get(objectId);
+            if (recipe != null)
+            {
+                ret.add(recipe);
+            }
+        }
+        return ret;
+    }
+
+    @Override
+    public Recipe getRecipeById(String id)
+    {
+        return this.cache.get(new ObjectId(id));
     }
 
     @Override
@@ -34,6 +64,7 @@ public class TestRecipeProvider implements IRecipeProvider
     {
         Recipe sample = new Recipe(ObjectId.get(), "My first recipe");
         sample.setCreatedBy(ObjectId.get());
+        String userId1 = sample.getCreatedByStr();
         sample.setCreatedDate(new Date());
         Ingredient ingredient = new Ingredient();
         ingredient.setAmount("1/2 tsp");
@@ -52,6 +83,7 @@ public class TestRecipeProvider implements IRecipeProvider
         this.cache.put(sample.getId(), sample);
 
         sample = new Recipe(ObjectId.get(), "My second recipe");
+        sample.getSharedWith().add(userId1);
         sample.setCreatedBy(ObjectId.get());
         sample.setCreatedDate(new Date());
         ingredient = new Ingredient();

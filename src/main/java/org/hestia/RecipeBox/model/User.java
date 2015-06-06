@@ -5,8 +5,8 @@ import org.bson.types.ObjectId;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
-import java.util.ArrayList;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 
 @XmlRootElement
@@ -15,8 +15,8 @@ public class User
     private String _name;
     private Date _joinedOn;
     private ObjectId _id;
-    private List<Recipe> _myRecipes = new ArrayList<>();
-    private List<Recipe> _sharedRecipes = new ArrayList<>();
+    private List<String> _friends = new LinkedList<>();
+    private List<Collection> _collections = new LinkedList<>();
 
     public String getName()
     {
@@ -55,23 +55,23 @@ public class User
         _id = id;
     }
 
-    public List<Recipe> getMyRecipes()
+    public List<String> getFriends()
     {
-        return _myRecipes;
+        return _friends;
     }
 
-    public void setMyRecipes(List<Recipe> myRecipes)
+    public void setFriends(List<String> friends)
     {
-        _myRecipes = myRecipes;
+        _friends = friends;
     }
 
-    public List<Recipe> getSharedRecipes()
+    public List<Collection> getCollections()
     {
-        return _sharedRecipes;
+        return _collections;
     }
 
-    public void setSharedRecipes(List<Recipe> sharedRecipes)
+    public void setCollections(List<Collection> collections)
     {
-        _sharedRecipes = sharedRecipes;
+        _collections = collections;
     }
 }

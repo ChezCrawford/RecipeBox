@@ -1,15 +1,12 @@
 package org.hestia.RecipeBox;
 
-import org.bson.types.ObjectId;
 import org.hestia.RecipeBox.model.Recipe;
 import org.springframework.stereotype.Component;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.util.Collection;
+import java.util.List;
 
 @Component
 @Path("/recipes")
@@ -26,8 +23,23 @@ public class RecipeManager
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
+    @Path("/user/{id}")
+    public Collection<Recipe> getRecipesForUser(@PathParam("id") String userId)
+    {
+        return this.provider.getRecipesForUser(userId);
+    }
+
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public Collection<Recipe> getRecipes(@QueryParam("id") List<String> ids)
+    {
+        return this.provider.getRecipes(ids);
+    }
+
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
     @Path("{id}")
-    public Recipe getRecipeById(@PathParam("id") ObjectId id)
+    public Recipe getRecipe(@PathParam("id") String id)
     {
         return this.provider.getRecipeById(id);
     }

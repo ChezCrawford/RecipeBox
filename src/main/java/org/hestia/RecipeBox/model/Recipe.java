@@ -5,8 +5,8 @@ import org.bson.types.ObjectId;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
-import java.util.ArrayList;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 
 @XmlRootElement
@@ -16,10 +16,10 @@ public class Recipe
     private String _title;
     private ObjectId _createdBy;
     private Date _createdDate;
-    private List<Ingredient> _ingredients = new ArrayList<>();
-    private List<Direction> _directions = new ArrayList<>();
-
-    // todo: Add a _sharedWith list of either User objects or User IDs that shows who this recipe is shared with.
+    private List<Ingredient> _ingredients = new LinkedList<>();
+    private List<Direction> _directions = new LinkedList<>();
+    private List<String> _sharedWith = new LinkedList<>();
+    private List<String> _tags = new LinkedList<>();
 
     @XmlElement(name = "_id")
     public String getIdStr()
@@ -103,9 +103,29 @@ public class Recipe
         _directions = directions;
     }
 
+    public List<String> getSharedWith()
+    {
+        return _sharedWith;
+    }
+
+    public void setSharedWith(List<String> sharedWith)
+    {
+        _sharedWith = sharedWith;
+    }
+
     public Recipe(ObjectId id, String title)
     {
         _id = id;
         _title = title;
+    }
+
+    public List<String> getTags()
+    {
+        return _tags;
+    }
+
+    public void setTags(List<String> tags)
+    {
+        _tags = tags;
     }
 }
