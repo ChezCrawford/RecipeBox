@@ -3,7 +3,10 @@ package org.hestia.RecipeBox;
 import org.hestia.RecipeBox.model.Recipe;
 import org.springframework.stereotype.Component;
 
-import javax.ws.rs.*;
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import java.util.Collection;
 
@@ -12,7 +15,7 @@ import java.util.Collection;
 @Produces(MediaType.APPLICATION_JSON)
 public class RecipeManager
 {
-    private IRecipeProvider provider = new TestRecipeProvider();
+    private IRecipeProvider provider = TestRecipeProvider.Instance;
 
     @GET
     public Collection<Recipe> getRecipes()
